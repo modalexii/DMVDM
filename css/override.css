@@ -59,3 +59,7 @@ a#sitename {
   padding-bottom: 32px;
   font: 65px arial,sans serif;
 }
+
+h3.post-title a {
+  color: #ff33ff;
+}
