@@ -1,0 +1,61 @@
+/*
+Contents of Blogger CSS override field.
+Should be periodically merged with main template.
+-leq IE7 = no fucks given
+*/
+
+/* header */
+
+#bg-1 {
+  position: absolute;
+}
+
+#header {
+  /* _obviously_ you need trig to fix pre-standards IE */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.99862953, M12=0.05233596, M21=-0.05233596, M22=0.99862953,sizingMethod='auto expand')";
+  filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.99862953, M12=0.05233596, M21=-0.05233596, M22=0.99862953,sizingMethod='auto expand');
+  -ms-transform: rotate(357deg);
+  transform: rotate(357deg);
+}
+
+a#sitename {
+  color: #66ff66;
+  font-size: 60px;
+}
+
+#nav a {
+  padding: 5px 10px;
+}
+
+.descriptionwrapper {
+  letter-spacing: 5px;
+  margin-top: 15px;
+  margin-left: 6px;
+}
+
+
+/* root */
+
+/*comment count bubble*/
+.komen { 
+  display: none;
+}
+
+/* more readable date bubbles */
+.post-meta li.date strong, .komen a {
+  height: 1.2em;
+  width: 1.2em;
+  line-height: 1.2em;
+  -moz-border-radius: 1.2em;
+  -webkit-border-radius: 1.2em;
+  border-radius: 1.2em;
+}
+
+.post-meta .day {
+  font: 65px arial,sans serif;
+  .post-meta .day {
+  padding-right: 64px;
+  padding-top: 32px;
+  padding-bottom: 32px;
+  font: 65px arial,sans serif;
+}
