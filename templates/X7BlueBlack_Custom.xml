@@ -843,8 +843,8 @@ $(&#39;html, body&#39;).animate({scrollTop:0}, &#39;slow&#39;);
 });
 });
 </script>
-<link href='http://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Homenaje' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'></link>
+<link href='http://fonts.googleapis.com/css?family=Homenaje' rel='stylesheet' type='text/css'></link>
 
  </head>
 
