@@ -281,6 +281,10 @@ background-position:top center!important;
 	top:0;
         overflow:hidden;
 }
+.komen {
+	display:none;
+}
+/*
 .komen a
 {
 	border:4px solid #1B1C20;
@@ -289,6 +293,7 @@ background-position:top center!important;
 	left:31px;
 	top:-15px;
 }
+*/
 .post-meta .month
 {
 	border:4px solid #1B1C20;
@@ -314,6 +319,7 @@ background-position:top center!important;
 
 h3.post-title
 {
+	color: #ff33ff;
 	position: relative;
 	margin: 0 0 0px -5px;
 	padding: 5px 15px;
@@ -323,7 +329,7 @@ h3.post-title
 }
 h3.post-title a
 {	
-	color:#EE4136;
+	color: #ff33ff;
 }
 
 /* General Post */
@@ -365,6 +371,7 @@ h3.post-title a
 }
 
 /*  sidebar  */
+
 .sidebar-wrap 
 {
         float:right;
@@ -407,12 +414,18 @@ color:#555;
 	height:60px;
 	padding:10px 0 20px 0;
 	width:1000px;
-        overflow:hidden;
+	overflow:hidden;
 	margin:0 auto;
 	-webkit-transform: rotate(357deg);
 	-moz-transform: rotate(357deg);
 	-o-transform: rotate(357deg);
-	 writing-mode: lr-tb;
+
+	/* _obviously_ you need trig to fix pre-standards IE */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.99862953, M12=0.05233596, M21=-0.05233596, M22=0.99862953,sizingMethod='auto expand')";
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.99862953, M12=0.05233596, M21=-0.05233596, M22=0.99862953,sizingMethod='auto expand');
+	-ms-transform: rotate(357deg);
+	transform: rotate(357deg);
+	writing-mode: lr-tb;
 }
 #sitename 
 {
@@ -427,7 +440,8 @@ color:#555;
 }
  a#sitename
 {
-	color:silver;
+	color: #66ff66;
+	font-size: 60px;
 }
 .descriptionwrapper
 {
@@ -435,7 +449,9 @@ color:#555;
 	top:53px;
 	font:bold 11px Arial,Sans-Serif;
 	color:silver;
-	letter-spacing:10px;
+	letter-spacing:5px;
+	margin-top: 15px;
+	margin-left: 6px;
 }
 #searchform 
 {
@@ -474,7 +490,7 @@ color:#555;
 {
 	color: #555;
 	font: bold 12px 'Lucida sans', Arial, Helvetica;
-	padding:2px 10px;
+	padding: 5px 10px;
 	border-right:1px solid #555;
 }
 	
@@ -813,6 +829,7 @@ function removeHtmlTag(strx,chop){ if(strx.indexOf("<")!=-1){var s = strx.split(
 <script type='text/javascript'>
  var thumbnail_mode = &quot;no-float&quot; ; summary_noimg = 420; summary_img =420; img_thumb_height = 0; img_thumb_width = 0; 
 </script> 
+
 </b:if>
 <script type='text/javascript'>
 var lastdate;
