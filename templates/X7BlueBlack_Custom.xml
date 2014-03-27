@@ -843,31 +843,10 @@ $(&#39;html, body&#39;).animate({scrollTop:0}, &#39;slow&#39;);
 });
 });
 </script>
+<link href='http://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Homenaje' rel='stylesheet' type='text/css'>
 
-<style>
-/* font */
-@font-face 
-{
-	font-family: &#39;Raleway&#39;;
-	font-weight:bold;
-	src: local(&#39;Raleway-Thin&#39;), url(&#39;http://themes.googleusercontent.com/static/fonts/raleway/v5/RJMlAoFXXQEzZoMSUteGWD8E0i7KZn-EPnyo3HZu7kw.woff&#39;) format(&#39;woff&#39;);
-}
-@font-face 
-{
-	font-family: &#39;Droid Sans&#39;;
-	font-style: normal;
-	font-weight: normal;
-	src: local(&#39;Droid Sans&#39;), local(&#39;DroidSans&#39;), url(&#39;http://themes.googleusercontent.com/static/fonts/droidsans/v3/s-BiyweUPV0v-yRb-cjciBsxEYwM7FgeyaSgU71cLG0.woff&#39;) format(&#39;woff&#39;);
-}
-@font-face 
-{
-	font-family: &#39;Homenaje&#39;;
-	font-style: normal;
-	font-weight: 400;
-	src: local(&#39;Homenaje&#39;), local(&#39;Homenaje-Regular&#39;), url(&#39;http://themes.googleusercontent.com/static/fonts/homenaje/v1/jYyetuCOSxcVAexXms8sf_esZW2xOQ-xsNqO47m55DA.woff&#39;) format(&#39;woff&#39;);
-}
-</style>
-  </head>
+ </head>
 
  <body>
 <!-- start layout-header #bg-1 -->  <div id='bg-1'>
@@ -2085,10 +2064,9 @@ head.appendChild(script);
 <li><a href='#' title='rss'><span class='rss social-icon'/></a></li>
 			</ul>	<!-- end #social-networking-->
     <div class='clear'/>
-<a class='backtotop' href='#'/>
-      <p>Copyright &amp;copy; <script type='text/javascript'>var creditsyear = new Date();document.write(creditsyear.getFullYear());</script>/ <a expr:href='data:blog.homepageUrl' title='All Rights Reserved'> <data:blog.title/></a></p><p> Template by : <a href='http://urang-kurai.blogspot.com/' title='All Rights Reserved'>Urang-kurai</a> / powered by :blogger </p>
-  </div><!-- end layout-footer #bg-3-->
-
+    <a class='backtotop' href='#'/>
+      <p>Copyright &amp;copy; <script type='text/javascript'>var creditsyear = new Date();document.write(creditsyear.getFullYear());</script>/ <a expr:href='data:blog.homepageUrl'> <data:blog.title/></a></p><p> Template originally by <a href='http://urang-kurai.blogspot.com/' target='_blank'>this guy</a> but edited by <a href='https://twitter.com/modalexii' target='_blank'>@modalexii</a></p>
+    </div><!-- end layout-footer #bg-3-->
 
   </div><!-- end #credit-wrap-->
   </div><!-- end #credit-wrapper-->
