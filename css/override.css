@@ -60,6 +60,11 @@ a#sitename {
   font: 65px arial,sans serif;
 }
 
+/* for root... */
 h3.post-title a {
+  color: #ff33ff;
+}
+/* ...and for post pages */
+h3.post-title {
   color: #ff33ff;
 }
