@@ -1,0 +1,16 @@
+V0-001-005187017-2 # Echostage
+V0-001-000164338-8 # 9:30 Club
+V0-001-000700039-0 # U Street Music Hall
+V0-001-005635028-4 # Soundstage
+V0-001-000537996-8 # Ram's Head Live
+V0-001-000223716-6 # Lincoln Theatre
+V0-001-005349791-9 # Howard Theatre
+V0-001-000537662-4 # Mosaic
+V0-001-001253039-0 # Red Maple
+V0-001-006021825-9 # Paradox 
+V0-001-001465772-5 # Merriweather Post Pavillion
+V0-001-000220792-5 # Power Plant Live
+V0-001-007691534-4 # Pimlico
+V0-001-000290514-2 # Glow@FUR
+V0-001-001266042-4 # Peir Six Pavillion
+V0-001-000466413-3 # Anne Arundel Fairgrounds

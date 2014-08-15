@@ -1,0 +1,5 @@
+karaoke
+museum
+jazz
+latin
+sports
