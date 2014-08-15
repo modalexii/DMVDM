@@ -20,3 +20,11 @@ Should be periodically merged with main template.
   padding-bottom: 32px;
   font: 65px arial,sans serif;
 }
+
+.hentry i {
+  font-style: italic;
+}
+
+.hentry a {
+  color: #eee; text-decoration: underline
+}
