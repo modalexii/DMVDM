@@ -54,17 +54,18 @@ def print_for_humans(events):
 			e["region_abbr"]
 			)
 		print "Price: %s" % e["price"]
-		'''
 		try:
 			for l in e["links"]["link"]:
-				print "%s: %s" % (l["type"], l["url"])
+				print "%s %s" % (l["description"], l["url"])
 		except TypeError:
-			print "%s: %s" % (l["links"]["link"], l["links"]["link"])
-		'''
+			print "%s %s" % (
+				e["links"]["link"]["description"], 
+				e["links"]["link"]["url"],
+			)
 		print "\n"
 
-		import pprint
-		pprint.pprint(e)
+		#import pprint
+		#pprint.pprint(e)
 
 class eventfulQuery():
 
@@ -116,15 +117,10 @@ class eventfulQuery():
 			sort_order = "date", # for humans only. remove later.
 		)
 
-		return self.events
+		return self.events["events"]["event"]
 
 
 if __name__ == '__main__':
-	request = eventfulQuery(date="Future", size=40)
+	request = eventfulQuery(date="Future", size=5)
 	events = request.results()
-
 	print_for_humans(events)
-
-else:
-	print "\nwat.\n"
-	exit()
