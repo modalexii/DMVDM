@@ -14,3 +14,4 @@ V0-001-007691534-4 # Pimlico
 V0-001-000290514-2 # Glow@FUR
 V0-001-001266042-4 # Peir Six Pavillion
 V0-001-000466413-3 # Anne Arundel Fairgrounds
+V0-001-000102828-8 # Wolftrap
