@@ -1,119 +1,73 @@
 #!/usr/bin/env python
 
-import httplib2
-from apiclient.discovery import build
-from oauth2client.client import SignedJwtAssertionCredentials
-from gcal_api_secrets import *
 
-# API Docs: https://developers.google.com/api-client-library/python/apis/calendar/v3
-
-credentials = SignedJwtAssertionCredentials(
-	service_email,
-	get_p12(),
-	scope='https://www.googleapis.com/auth/calendar',
-)
-
-http = httplib2.Http()
-http = credentials.authorize(http)
-
-service = build(serviceName = 'calendar', version = 'v3', http = http,
-	developerKey = developer_key)
-
-def rfc3339(eventful_time_string):
-	d = eventful_time_string.replace(" ", "T")
-	return d
-
-def create_end_time(start_time,mins):
-	from datetime import datetime, timedelta
-	d = datetime.strptime(start_time,"%Y-%m-%dT%H:%M:%S")
-	d = d + timedelta(minutes=mins)
-	d = d.strftime("%Y-%m-%dT%H:%M:%S")
-	return d
-
-def googlify(event):
+class calendarOperation():
 	'''
-	Convert an event object from eventful to an event object as expected
-	by the Google Calendar API
+	Do things with the Google Calendar by wrapping the APIv3 service object.
+	See developers.google.com/api-client-library/python/apis/calendar/v3
 	'''
 
-	google_event = {}
+	def __init__(self):
+		'''
+		Authorize to Google and create a Service object that can read and
+		write to the calendar
+		'''
+		import httplib2
+		from apiclient.discovery import build
+		from oauth2client.client import SignedJwtAssertionCredentials
+		import gcal_api_secrets
 
-	display_title = "%s @ %s" % (event["title"], event["venue_name"])
-	google_event["summary"] = display_title,
-
-	start_datetime = rfc3339(event["start_time"])
-	google_event["start"] = {
-		"dateTime" : start_datetime,
-		"timeZone" : "America/New_York",
-	}
-
-	try:
-		end_datetime = rfc3339(event["stop_time"])
-	except AttributeError:
-		# no end time given, but Google requires one, so 
-		# add some minutes to the start time
-		end_datetime = create_end_time(start_datetime,240)
-	finally:
-		google_event["end"] = {
-			"dateTime" : end_datetime,
-			"timeZone" : "America/New_York",
-		}
-		end_time_disclaimer = "*** End time not specified, so we guessed ***\n"
-
-	full_location = "%s, %s, %s, %s" % (
-		event["venue_name"], event["venue_address"], 
-		event["city_name"],  event["region_abbr"]
-	)
-	google_event["location"] = full_location
-
-	performers = ""
-	try:
-		for l in event["performers"]["performer"]:
-			performers = "%s%s  ::\n%s\n" % (
-				performers,
-				l["name"],
-				l["short_bio"],
-			)
-	except TypeError:
-		performers = "%s\n\n%s\n%s" % (
-			performers,
-			event["performers"]["performer"]["name"], 
-			event["performers"]["performer"]["short_bio"],
+		credentials = SignedJwtAssertionCredentials(
+			gcal_api_secrets.service_email,
+			gcal_api_secrets.get_p12(),
+			scope='https://www.googleapis.com/auth/calendar',
 		)
 
-	if event["price"]:
-		price = event["price"]
-	else:
-		price = "Unknown"
+		http = httplib2.Http()
+		http = credentials.authorize(http)
 
-	links = ""
-	try:
-		for l in event["links"]["link"]:
-			links = "%s\n\n%s\n%s" % (links, l["description"], l["url"])
-	except TypeError:
-		links = "%s\n\n%s\n%s" % (
-			links,
-			event["links"]["link"]["description"], 
-			event["links"]["link"]["url"],
+		self.service = build(
+			serviceName = 'calendar',
+			version = 'v3',
+			http = http,
+			developerKey = gcal_api_secrets.developer_key
 		)
 
-	description = '''{end_time_disclaimer}{performers}
-Price: {price}
-{links}
-	'''.format(**locals())
+		self.gcal_id = gcal_api_secrets.gcal_id
 
-	google_event["description"]	= description
-	
-	return google_event
+	def execute(self):
+		'''
+		Send staged transactions
+		'''
+		self.response = self.staged_transaction.execute()
 
-import pprint
-import eventful_api
-request = eventful_api.eventfulQuery(date="Future", size=3)
-events = request.results()
+	def new_event(self,event_data):
+		'''
+		Add new event(s) to the calendar. If stage_only = True, do
+		not execute	the transaction.
+		'''
+		self.staged_transaction = self.service.events().insert(
+			calendarId = self.gcal_id, 
+			body = event_data
+		)
 
-for e in events:
-	e = googlify(e)
-	pprint.pprint(e)
-	book = service.events().insert(calendarId = gcal_id, body = e)
-	result = book.execute()
-	pprint.pprint(result)
+	def update_event(self,event_data,event_id):
+		'''
+		update event(s) to the calendar. If stage_only = True, do
+		not execute	the transaction.
+		'''
+		self.staged_transaction = self.service.events().insert(
+			calendarId = self.gcal_id, 
+			eventId = event_id,
+			body = event_data,
+		)
+
+	def list_future_events(self):
+		self.staged_transaction = self.service.events().list(
+			calendarId = self.gcal_id, 
+			#timeMin = now, # by default only shows future events
+			showDeleted = True,
+		)
+		
+
+
