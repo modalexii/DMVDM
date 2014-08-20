@@ -42,24 +42,24 @@ Data:
   Processing:
     Flow:
       1: Pull from Eventful to Volatile Object 'A'
-      2: Pull from Google Calendar to Volatile Object B
-      3: Pull from Application Data Storage to Volatile Object C
+      2: Pull from Google Calendar to Volatile Object 'B'
       4: Merge A with B; push each result to Google Calendar
-      6: Concatenate and Deduplicate B and C to Volatile Object 'E'
-      7: Overwrite C in Application Data Storage with E
     Merging:
       # Objects named as defined in Data.Processing.Flow
       For Object ('T') in A:
-        T is not member of B:
-          Not Member of C: |                  # has never been on the calendar
-            Push to Google Calendar as Insert
-          Member of C: |                      # used to be on the calendar
+        T is not member of B: |
+          # event has never been on the calendar
+          Push to Google Calendar as Insert
+        T is member of B: |
+          # event is, or has been, on the calendar
+          B[T] has status "cancelled": |
+            # event was deleted through Google Calendar
             Take no action
-        T is member of B:
-          Values of O match values of B[T]: | # already on calendar, unmodified
-            Take no action
-          Values of O do not match values of B[T]:
-            Values of T match C[T]: |         # calendar was changed manually
+          B[T] does not have status "cancelled": |
+            # event is still on the calendar
+            Values of T match B[T]: 
+              # Nothing has changed
               Take no action
-            Values of T do not match C[T]: |  # event listing was updated
-               Push to Google Calendar as Update
+            Values of T do not match B[T]: |
+              # event listing was updated in Eventful
+              Push to Google Calendar as Update
