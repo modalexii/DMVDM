@@ -16,26 +16,6 @@ def list_to_search_expr(l,bool_op = "||"):
 
 	return search_expr
 
-def blank_missing_attribs(event):
-	'''
-	If any of the items listed in REQUIRED_KEYS are missing from dictionary
-	EVENT, add them as empty strings.
-	'''
-	required_keys = [ 
-		"title",
-		"description",
-		"venue_name",
-		"start_time",
-	]
-
-	for a in required_keys:
-		try:
-			event[a]
-		except KeyError:
-			event[a] = ""
-
-	return event
-
 def print_for_humans(events):
 	'''
 	Print the event list for inspection by a person
@@ -68,6 +48,10 @@ def print_for_humans(events):
 		#pprint.pprint(e)
 
 class eventfulQuery():
+	'''
+	A query to the Eventful API, including hard-coded whitelist and
+	blacklist content to filter potential results based on tag & venue.
+	'''
 
 	def __init__(self, date, size):
 
@@ -100,9 +84,11 @@ class eventfulQuery():
 		self.location_query = wl_whitelist_venues
 
 	def results(self):
+
 		'''
 		Send the request to Eventful. API Docs: https://api.eventful.com
 		'''
+
 		import eventful
 
 		api = eventful.API("FrX2dpPfjNW5V5hv")
