@@ -38,3 +38,7 @@ gcal_api_secrets.py
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Application generated files #
+##############################
+*.sublime-workspace
