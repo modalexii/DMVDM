@@ -34,11 +34,7 @@ Data:
         - Public
           Anonymous
           RO
-    Application Data Store: file://<data_root>/*.json
-        Connect From:
-          - Local Application Instance
-            Anonymous
-            RW
+
   Processing:
     Flow:
       1: Pull from Eventful to Volatile Object 'A'
@@ -61,5 +57,5 @@ Data:
               # Nothing has changed
               Take no action
             Values of T do not match B[T]: |
-              # event listing was updated in Eventful
-              Push to Google Calendar as Update
+              # event listing was updated
+              # need local storage to determine source of change

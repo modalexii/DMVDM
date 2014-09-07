@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 '''
 Convert cbjects for interoperability between interfaces
 '''
@@ -12,8 +15,16 @@ def add_minutes(start_time,mins):
 	d = d.strftime("%Y-%m-%dT%H:%M:%S")
 	return d
 
-def blank_missing_values(event):
+def strip_punctuation(in_string):
+	'''
+	Remove punctuation from a string
+	'''
+	import re, string
+	e = re.compile('[%s]' % re.escape(string.punctuation))
+	s = e.sub('', in_string)
+	return s
 
+def blank_missing_values(event):
 	'''
 	If any of the items listed in REQUIRED_KEYS are missing from dictionary
 	EVENT, add them as empty strings.
@@ -48,9 +59,10 @@ def googlify(eventful_event):
 	# title: event @ venue
 	display_title = "%s @ %s" % (
 		eventful_event["title"],
-		eventful_event["venue_name"]
+		eventful_event["venue_name"],
 	)
-	google_event["summary"] = display_title,
+
+	google_event["summary"] = display_title
 
 	# start time: RFC3339-format string
 	start_datetime = eventful_event["start_time"].replace(" ", "T")
@@ -75,8 +87,10 @@ def googlify(eventful_event):
 
 	# location: venue + street + city + region/state
 	full_location = "%s, %s, %s, %s" % (
-		eventful_event["venue_name"], eventful_event["venue_address"], 
-		eventful_event["city_name"],  eventful_event["region_abbr"]
+		eventful_event["venue_name"],
+		eventful_event["venue_address"], 
+		eventful_event["city_name"],
+		eventful_event["region_abbr"],
 	)
 	google_event["location"] = full_location
 
@@ -86,16 +100,28 @@ def googlify(eventful_event):
 	try:
 		for p in eventful_event["performers"]:
 			if p:
-				performers = "%s%s  ::\n%s\n" % (
+				performers = "%s%s: %s\n\n" % (
 					performers,
 					eventful_event["performers"]["performer"]["name"],
 					eventful_event["performers"]["performer"]["short_bio"],
 				)
 	except TypeError:
 		# performers = None (was not filled out)
-		import pprint
-		pprint.pprint(eventful_event["performers"])
-		performers = "-"
+		#import pprint
+		#pprint.pprint(eventful_event["performers"])
+		try:
+			for p in eventful_event["performers"]["performer"]:
+				performers = "%s%s: %s\n\n" % (
+					performers,
+					p["name"],
+					p["short_bio"],
+				)
+		except AttributeError:
+			# no performers listed
+			pass
+		except Exception, e:
+			print "[!] Error processing performers: %s" % str(e)
+			performers = ""
 
 	# price
 	if eventful_event["price"]:
@@ -122,23 +148,30 @@ def googlify(eventful_event):
 				links,
 				eventful_event["links"]["link"]["description"],
 				eventful_event["links"]["link"]["url"],
-			)		
-	#except:
-		# give up
-	#	raise
-	#	links = "-"
+			)
 
 	# description: performers, price, links
+
 	description = '''\
-{end_time_disclaimer}\
-{performers}\n
-Price: {price}\n
-{links}\n
+%s\
+%s\n
+Price: %s\n
+%s\n
 
 Events by Eventful
 http://eventful.com
-	'''.format(**locals())
+	'''.format(
+			end_time_disclaimer,
+			performers,
+			price,
+			links,
+		)
 
 	google_event["description"]	= description
+
+	event_id = eventful_event["id"]
+	event_id = strip_punctuation(event_id)
+	event_id = event_id.lower()
+	google_event["id"] = event_id
 	
 	return google_event
