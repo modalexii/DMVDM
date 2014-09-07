@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 def list_to_search_expr(l,bool_op = "||"):
 	'''
@@ -20,8 +21,9 @@ def print_for_humans(events):
 	'''
 	Print the event list for inspection by a person
 	'''
-	for e in events["events"]["event"]:
-		e = blank_missing_attribs(e)
+	import transmogrify
+	for e in events:
+		e = transmogrify.blank_missing_values(e)
 		print "Summary: %s @ %s" % (e["title"], e["venue_name"])
 		if e["all_day"] != "0":
 			print "All Day Event"
@@ -44,8 +46,8 @@ def print_for_humans(events):
 			)
 		print "\n"
 
-		#import pprint
-		#pprint.pprint(e)
+		import pprint
+		pprint.pprint(e)
 
 class eventfulQuery():
 	'''
@@ -107,6 +109,6 @@ class eventfulQuery():
 
 
 if __name__ == '__main__':
-	request = eventfulQuery(date="Future", size=5)
+	request = eventfulQuery(date="Future", size=2)
 	events = request.results()
 	print_for_humans(events)
