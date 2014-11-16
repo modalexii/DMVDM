@@ -31,6 +31,12 @@ def get_time():
 
 def main():
 
+	'''
+	At time of writing, there was no Sold Out show to refrence. Hence, we
+	have no idea what the page looks like after a sell out, and dont
+	even attempt to account for that condition.
+	'''
+
 	print
 	print "[i] Now monitoring Sellout Risk. ^C to stop." 
 	print
@@ -53,9 +59,22 @@ def main():
 		if not sellout_risk:
 			print "[i] [%s] No Sellout Risk meter yet" % now
 		else:
-			print "[i] [%s] Sellout Risk: %s" % (now, sellout_risk)
+			if sellout_risk == "MEDIUM":
+				print "[i] [%s] Sellout Risk: MEDIUM" % (now)
+			elif sellout_risk -- "HIGH":
+				print "[!!!]"
+				print "[!!!] [%s] Sellout Risk: HIGH" % (now)
+				print "[!!!]"
+				print
+				print "Buy Tickets Immediately: %s" % (url)
+				print
+				exit(30)
+			else:
+				print "[i] [%s] unexpected value of Sellout Risk: %s" % (now, sellout_risk)
+
 
 		sleep(wait_between_checks)
 
 if __name__ == "__main__":
 	main()
+
