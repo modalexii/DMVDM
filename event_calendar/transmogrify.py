@@ -71,6 +71,8 @@ def googlify(eventful_event):
 		"timeZone" : "America/New_York",
 	}
 
+
+	end_time_disclaimer = ""
 	# end time: RFC3339-format string
 	try:
 		end_datetime = eventful_event["stop_time"].replace(" ", "T")
@@ -78,12 +80,13 @@ def googlify(eventful_event):
 		# no end time was given, but Google requires one, so add some minutes
 		# to the start time.
 		end_datetime = add_minutes(start_datetime,240)
+		end_time_disclaimer = "*** End time not specified, so we guessed ***\n"
 	finally:
 		google_event["end"] = {
 			"dateTime" : end_datetime,
 			"timeZone" : "America/New_York",
 		}
-		end_time_disclaimer = "*** End time not specified, so we guessed ***\n"
+		
 
 	# location: venue + street + city + region/state
 	full_location = "%s, %s, %s, %s" % (
@@ -100,27 +103,37 @@ def googlify(eventful_event):
 	try:
 		for p in eventful_event["performers"]:
 			if p:
-				performers = "%s%s: %s\n\n" % (
-					performers,
-					eventful_event["performers"]["performer"]["name"],
-					eventful_event["performers"]["performer"]["short_bio"],
-				)
+				n = eventful_event["performers"]["performer"]["name"]
+				b = eventful_event["performers"]["performer"]["short_bio"]
+				if n and b:
+					performers = "%s%s: %s\n\n" % (
+						performers,
+						n,
+						b,
+					)
 	except TypeError:
 		# performers = None (was not filled out)
 		#import pprint
 		#pprint.pprint(eventful_event["performers"])
 		try:
 			for p in eventful_event["performers"]["performer"]:
-				performers = "%s%s: %s\n\n" % (
-					performers,
-					p["name"],
-					p["short_bio"],
-				)
+				if p:
+					n = p["name"]
+					b = p["short_bio"]
+					if n and b:
+						performers = "%s%s: %s\n\n" % (
+							performers,
+							n,
+							b,
+						)
 		except AttributeError:
 			# no performers listed
 			pass
 		except Exception, e:
-			print "[!] Error processing performers: %s" % str(e)
+			#print "[!] Error processing performers for {s}: {e}".format(
+			#	s = google_event["summary"],
+			#	e = str(e)
+			#)
 			performers = ""
 
 	# price
@@ -143,24 +156,27 @@ def googlify(eventful_event):
 					l["url"],
 				)
 	except TypeError:
-		for n,l in enumerate(eventful_event["links"]["link"]):
-			links = "%s\n%s\n%s" % (
-				links,
-				eventful_event["links"]["link"]["description"],
-				eventful_event["links"]["link"]["url"],
-			)
+		try:
+			for n,l in enumerate(eventful_event["links"]["link"]):
+				links = "%s\n%s\n%s" % (
+					links,
+					eventful_event["links"]["link"]["description"],
+					eventful_event["links"]["link"]["url"],
+				)
+		except:
+			# arbitrary data ia hard and I quit
+			links = ""
 
 	# description: performers, price, links
-
 	description = '''\
 %s\
 %s\n
 Price: %s\n
-%s\n
+%s
 
 Events by Eventful
 http://eventful.com
-	'''.format(
+	''' % (
 			end_time_disclaimer,
 			performers,
 			price,

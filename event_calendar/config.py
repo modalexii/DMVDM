@@ -6,5 +6,5 @@ Tweakable parameters for the calendar bot's processes
 '''
 
 # How many events to fetch from Eventful in each update
-eventful_pull_count = 10
+eventful_pull_count = 50
 

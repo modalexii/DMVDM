@@ -17,7 +17,13 @@ def main():
 	# make Eventful objects into Google Calendar objects
 	for i,e in enumerate(a):
 		e = transmogrify.blank_missing_values(e)
+		#try:
 		e = transmogrify.googlify(e)
+		#except TypeError:
+			# a malformed eventful event that we can't make in to
+			# a google event without significant code improvements
+		#	del a[i]
+		#else:
 		a[i] = e
 
 	# get current state of the calendar from Google
